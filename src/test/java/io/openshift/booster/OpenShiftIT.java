@@ -37,7 +37,7 @@ public class OpenShiftIT {
     @ArquillianResource
     private Session session;
 
-    private final String applicationName = "vertx-http";
+    private final String applicationName = "http-vertx";
 
     @Before
     public void setup() {
@@ -48,10 +48,11 @@ public class OpenShiftIT {
                 .get();
         Assertions.assertThat(route)
                 .isNotNull();
-        RestAssured.baseURI = String.format("http://%s/api/greeting", Objects.requireNonNull(route)
+        RestAssured.baseURI = String.format("http://%s", Objects.requireNonNull(route)
                 .getSpec()
                 .getHost());
         project = this.client.getNamespace();
+	    System.out.println("\nRoute is: " + route.getSpec().getHost() + "\n");
     }
 
     @Test
