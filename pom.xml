@@ -19,7 +19,7 @@
         <vertx.version>3.4.2</vertx.version>
         <vertx-maven-plugin.version>1.0.8</vertx-maven-plugin.version>
         <vertx.verticle>io.openshift.booster.HttpApplication</vertx.verticle>
-        <version.arquillian_cube>1.6.0</version.arquillian_cube>
+        <version.arquillian_cube>1.7.0</version.arquillian_cube>
     </properties>
 
     <dependencyManagement>
