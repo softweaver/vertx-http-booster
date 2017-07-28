@@ -5,7 +5,6 @@ import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.openshift.api.model.Route;
 import io.fabric8.openshift.client.OpenShiftClient;
 import org.arquillian.cube.kubernetes.api.Session;
-import org.assertj.core.api.Assertions;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Before;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 import static com.jayway.awaitility.Awaitility.await;
 import static com.jayway.restassured.RestAssured.get;
 import static io.openshift.booster.HttpApplication.template;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 @RunWith(Arquillian.class)
@@ -42,7 +42,7 @@ public class OpenShiftIT {
                 .inNamespace(this.session.getNamespace())
                 .withName(this.applicationName)
                 .get();
-        Assertions.assertThat(route)
+        assertThat(route)
                 .isNotNull();
         RestAssured.baseURI = String.format("http://%s", Objects.requireNonNull(route)
                 .getSpec()
@@ -53,6 +53,8 @@ public class OpenShiftIT {
 
     @Test
     public void testThatWeAreReady() throws Exception {
+//    	assertThat(client).pods().runningStatus().filterNamespace(session.getNamespace()).hasSize(1);
+
 	    await().atMost(5, TimeUnit.MINUTES).until(() -> {
 				    List<Pod> list = client.pods().inNamespace(project).list().getItems();
 				    return list.stream()
@@ -65,8 +67,6 @@ public class OpenShiftIT {
         await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get().getStatusCode() < 500);
         await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get("/api/greeting")
             .getStatusCode() < 500);
-
-	    System.out.println("\nStatus code: " + get("/api/greeting").getStatusCode() + "\n");
     }
 
     @Test
@@ -78,20 +78,4 @@ public class OpenShiftIT {
 	private boolean isRunning(Pod pod) {
 		return "running".equalsIgnoreCase(pod.getStatus().getPhase());
 	}
-
-//	@AfterClass
-//	public static void cleanUp() {
-//		List<String> keys = new ArrayList<>(created.keySet());
-//		keys.sort(String::compareTo);
-//		for (String key : keys) {
-//			created.remove(key)
-//					.stream()
-//					.sorted(Comparator.comparing(HasMetadata::getKind))
-//					.forEach(metadata -> {
-//						System.out.println(String.format("Deleting %s : %s", key, metadata.getKind()));
-//						deleteWithRetries(metadata);
-//					});
-//		}
-//	}
-
 }
