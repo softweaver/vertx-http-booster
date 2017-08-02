@@ -6,12 +6,17 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.StaticHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
 
 public class HttpApplication extends AbstractVerticle {
 
   protected static final String template = "Hello, %s!";
+
+  // User log
+  private static final Logger LOGGER = LogManager.getLogger(HttpApplication.class);
 
   @Override
   public void start(Future<Void> future) {
@@ -29,9 +34,12 @@ public class HttpApplication extends AbstractVerticle {
             // Retrieve the port from the configuration, default to 8080.
             config().getInteger("http.port", 8080), ar -> {
               if (ar.succeeded()) {
-                System.out.println("Server starter on port " + ar.result().actualPort());
+                LOGGER.info("Server started on port {}", ar.result().actualPort());
+                future.complete();
+              } else {
+                LOGGER.error("Server unable to start", ar.cause());
+                future.fail(ar.cause());
               }
-              future.handle(ar.mapEmpty());
             });
 
   }
@@ -41,6 +49,7 @@ public class HttpApplication extends AbstractVerticle {
     if (name == null) {
       name = "World";
     }
+    LOGGER.info("Handling greeting request with name `{}`", name);
 
     JsonObject response = new JsonObject()
         .put("content", String.format(template, name));
