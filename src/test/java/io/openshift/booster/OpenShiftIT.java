@@ -25,7 +25,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 @RunWith(Arquillian.class)
 public class OpenShiftIT {
-	private String project;
+    private String project;
 
     @ArquillianResource
     private OpenShiftClient client;
@@ -48,25 +48,25 @@ public class OpenShiftIT {
                 .getSpec()
                 .getHost());
         project = this.client.getNamespace();
-	    System.out.println("\nRoute is: " + route.getSpec().getHost() + "\n");
+        System.out.println("\nRoute is: " + route.getSpec().getHost() + "\n");
     }
 
     @Test
     public void testThatWeAreReady() throws Exception {
 //    	assertThat(client).pods().runningStatus().filterNamespace(session.getNamespace()).hasSize(1);
 
-	    await().atMost(5, TimeUnit.MINUTES).until(() -> {
-				    List<Pod> list = client.pods().inNamespace(project).list().getItems();
-				    return list.stream()
-						    .filter(pod -> pod.getMetadata().getName().startsWith(applicationName))
-						    .filter(this::isRunning)
-						    .collect(Collectors.toList()).size() >= 1;
-			    }
-	    );
+        await().atMost(5, TimeUnit.MINUTES).until(() -> {
+                    List<Pod> list = client.pods().inNamespace(project).list().getItems();
+                    return list.stream()
+                            .filter(pod -> pod.getMetadata().getName().startsWith(applicationName))
+                            .filter(this::isRunning)
+                            .collect(Collectors.toList()).size() >= 1;
+                }
+        );
         // Check that the route is served.
         await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get().getStatusCode() < 500);
         await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get("/api/greeting")
-            .getStatusCode() < 500);
+                .getStatusCode() < 500);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class OpenShiftIT {
         get("/api/greeting?name=vert.x").then().body("content", equalTo(String.format(template, "vert.x")));
     }
 
-	private boolean isRunning(Pod pod) {
-		return "running".equalsIgnoreCase(pod.getStatus().getPhase());
-	}
+    private boolean isRunning(Pod pod) {
+        return "running".equalsIgnoreCase(pod.getStatus().getPhase());
+    }
 }
