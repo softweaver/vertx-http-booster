@@ -83,14 +83,10 @@ objects:
   kind: Service
   metadata:
     annotations:
-      fabric8.io/scm-con-url: scm:git:https://github.com/openshiftio/booster-parent.git/http-vertx
-      prometheus.io/port: "9779"
-      fabric8.io/scm-url: https://github.com/openshiftio/http-vertx
       fabric8.io/iconUrl: img/icons/vertx.svg
       fabric8.io/git-branch: master
       prometheus.io/scrape: "true"
-      fabric8.io/scm-devcon-url: scm:git:git:@github.com:openshiftio/booster-parent.git/http-vertx
-      fabric8.io/scm-tag: booster-parent-8
+      prometheus.io/port: "9779"
     labels:
       expose: "true"
       app: http-vertx
@@ -112,13 +108,9 @@ objects:
   kind: DeploymentConfig
   metadata:
     annotations:
-      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
-      fabric8.io/scm-con-url: scm:git:https://github.com/openshiftio/booster-parent.git/http-vertx
-      fabric8.io/scm-url: https://github.com/openshiftio/http-vertx
       fabric8.io/iconUrl: img/icons/vertx.svg
       fabric8.io/git-branch: master
-      fabric8.io/scm-devcon-url: scm:git:git:@github.com:openshiftio/booster-parent.git/http-vertx
-      fabric8.io/scm-tag: booster-parent-8
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
     labels:
       app: http-vertx
       provider: fabric8
@@ -138,13 +130,9 @@ objects:
     template:
       metadata:
         annotations:
-          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
-          fabric8.io/scm-con-url: scm:git:https://github.com/openshiftio/booster-parent.git/http-vertx
-          fabric8.io/scm-url: https://github.com/openshiftio/http-vertx
           fabric8.io/iconUrl: img/icons/vertx.svg
           fabric8.io/git-branch: master
-          fabric8.io/scm-devcon-url: scm:git:git:@github.com:openshiftio/booster-parent.git/http-vertx
-          fabric8.io/scm-tag: booster-parent-8
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
         labels:
           app: http-vertx
           provider: fabric8
