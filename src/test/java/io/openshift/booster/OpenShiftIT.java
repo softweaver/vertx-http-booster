@@ -5,6 +5,7 @@ import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.openshift.api.model.Route;
 import io.fabric8.openshift.client.OpenShiftClient;
 import org.arquillian.cube.kubernetes.api.Session;
+import org.arquillian.cube.openshift.impl.enricher.RouteURL;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -27,28 +29,22 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class OpenShiftIT {
     private String project;
 
+    private final String applicationName = "http-vertx";
+
     @ArquillianResource
     private OpenShiftClient client;
 
     @ArquillianResource
     private Session session;
 
-    private final String applicationName = "http-vertx";
+    @RouteURL(applicationName)
+    private URL route;
 
     @Before
     public void setup() {
-        final Route route = this.client.adapt(OpenShiftClient.class)
-                .routes()
-                .inNamespace(this.session.getNamespace())
-                .withName(this.applicationName)
-                .get();
-        assertThat(route)
-                .isNotNull();
-        RestAssured.baseURI = String.format("http://%s", Objects.requireNonNull(route)
-                .getSpec()
-                .getHost());
+        RestAssured.baseURI = route.toString();
         project = this.client.getNamespace();
-        System.out.println("\nRoute is: " + route.getSpec().getHost() + "\n");
+        System.out.println("\nRoute is: " + route.toString() + "\n");
     }
 
     @Test
