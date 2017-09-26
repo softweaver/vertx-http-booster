@@ -50,7 +50,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: http-vertx:latest
+        name: http-vertx:12
     postCommit: {}
     resources: {}
     source:
@@ -91,7 +91,7 @@ objects:
       expose: "true"
       app: http-vertx
       provider: fabric8
-      version: 11-SNAPSHOT
+      version: "12"
       group: io.openshift.booster
     name: http-vertx
   spec:
@@ -110,15 +110,16 @@ objects:
     annotations:
       fabric8.io/iconUrl: img/icons/vertx.svg
       fabric8.io/git-branch: master
-      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=12
     labels:
       app: http-vertx
       provider: fabric8
-      version: 11-SNAPSHOT
+      version: "12"
       group: io.openshift.booster
     name: http-vertx
   spec:
     replicas: 1
+    revisionHistoryLimit: 2
     selector:
       app: http-vertx
       provider: fabric8
@@ -132,11 +133,11 @@ objects:
         annotations:
           fabric8.io/iconUrl: img/icons/vertx.svg
           fabric8.io/git-branch: master
-          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=11-SNAPSHOT
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=http-vertx&var-version=12
         labels:
           app: http-vertx
           provider: fabric8
-          version: 11-SNAPSHOT
+          version: "12"
           group: io.openshift.booster
       spec:
         containers:
@@ -145,11 +146,7 @@ objects:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
-          - name: JAVA_APP_DIR
-            value: /deployments
-          - name: JAVA_OPTIONS
-            value: -Dvertx.cacheDirBase=/tmp
-          image: http-vertx:latest
+          image: http-vertx:12
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -187,7 +184,7 @@ objects:
         - vertx
         from:
           kind: ImageStreamTag
-          name: http-vertx:latest
+          name: http-vertx:12
       type: ImageChange
 - apiVersion: v1
   kind: Route
@@ -195,7 +192,7 @@ objects:
     labels:
       app: http-vertx
       provider: fabric8
-      version: 11-SNAPSHOT
+      version: "12"
       group: io.openshift.booster
     name: http-vertx
   spec:
