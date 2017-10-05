@@ -6,6 +6,7 @@
   <extension qualifier="openshift">
     <property name="namespace.use.current">false</property>
     <property name="env.init.enabled">true</property>
-    <property name="env.config.resource.name">openshift.yml</property>
+    <property name="enableImageStreamDetection">true</property>
+    <!--<property name="env.config.resource.name">openshift.yml</property>-->
   </extension>
 </arquillian>

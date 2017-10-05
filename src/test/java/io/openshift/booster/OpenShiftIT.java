@@ -41,7 +41,6 @@ public class OpenShiftIT {
     public void setup() {
         RestAssured.baseURI = route.toString();
         project = this.client.getNamespace();
-        System.out.println("\nRoute is: " + route.toString() + "\n");
     }
 
     @Test
