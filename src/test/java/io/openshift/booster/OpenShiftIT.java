@@ -2,7 +2,6 @@ package io.openshift.booster;
 
 import com.jayway.restassured.RestAssured;
 import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.openshift.api.model.Route;
 import io.fabric8.openshift.client.OpenShiftClient;
 import org.arquillian.cube.kubernetes.api.Session;
 import org.arquillian.cube.openshift.impl.enricher.RouteURL;
@@ -47,8 +46,6 @@ public class OpenShiftIT {
 
     @Test
     public void testThatWeAreReady() throws Exception {
-//    	assertThat(client).pods().runningStatus().filterNamespace(session.getNamespace()).hasSize(1);
-
         await().atMost(5, TimeUnit.MINUTES).until(() -> {
                     List<Pod> list = client.pods().inNamespace(project).list().getItems();
                     return list.stream()
