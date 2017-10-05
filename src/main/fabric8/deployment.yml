@@ -2,10 +2,6 @@ spec:
   template:
     spec:
       containers:
-      - resources:
-          requests:
-            cpu: 300m
-            memory: 250Mi
-          limits:
-            cpu: 1
-            memory: 1Gi
+        - resources:
+              limits:
+                memory: 250Mi
