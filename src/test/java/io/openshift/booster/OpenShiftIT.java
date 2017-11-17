@@ -4,6 +4,7 @@ import com.jayway.restassured.RestAssured;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.openshift.client.OpenShiftClient;
 import org.arquillian.cube.kubernetes.api.Session;
+import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
 import org.arquillian.cube.openshift.impl.enricher.RouteURL;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -26,7 +27,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class OpenShiftIT {
     private String project;
 
-    private final String applicationName = System.getProperty("app.name","http-vertx");
+    private final String applicationName = System.getProperty("app.name", "http-vertx");
 
     @ArquillianResource
     private OpenShiftClient client;
@@ -35,6 +36,7 @@ public class OpenShiftIT {
     private Session session;
 
     @RouteURL("${app.name}")
+    @AwaitRoute
     private URL route;
 
     @Before
@@ -46,17 +48,17 @@ public class OpenShiftIT {
     @Test
     public void testThatWeAreReady() throws Exception {
         await().atMost(5, TimeUnit.MINUTES).until(() -> {
-                    List<Pod> list = client.pods().inNamespace(project).list().getItems();
-                    return list.stream()
-                            .filter(pod -> pod.getMetadata().getName().startsWith(applicationName))
-                            .filter(this::isRunning)
-                            .collect(Collectors.toList()).size() >= 1;
-                }
+                List<Pod> list = client.pods().inNamespace(project).list().getItems();
+                return list.stream()
+                    .filter(pod -> pod.getMetadata().getName().startsWith(applicationName))
+                    .filter(this::isRunning)
+                    .collect(Collectors.toList()).size() >= 1;
+            }
         );
         // Check that the route is served.
         await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get().getStatusCode() < 500);
         await().atMost(5, TimeUnit.MINUTES).catchUncaughtExceptions().until(() -> get("/api/greeting")
-                .getStatusCode() < 500);
+            .getStatusCode() < 500);
     }
 
     @Test
