@@ -28,10 +28,10 @@ public class OpenShiftIT {
     private String project;
 
     private final String applicationName = System.getProperty("app.name", "http-vertx");
-
+    
     @ArquillianResource
-    private OpenShiftClient client;
-
+    OpenShiftClient client;
+    
     @ArquillianResource
     private Session session;
 
