@@ -1,8 +1,8 @@
 package io.openshift.booster;
 
 import com.jayway.restassured.RestAssured;
-import io.fabric8.kubernetes.api.model.v3_1.Pod;
-import io.fabric8.openshift.clnt.v3_1.OpenShiftClient;
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.openshift.client.OpenShiftClient;
 import org.arquillian.cube.kubernetes.api.Session;
 import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
 import org.arquillian.cube.openshift.impl.enricher.RouteURL;
@@ -30,7 +30,7 @@ public class OpenShiftIT {
     private final String applicationName = System.getProperty("app.name", "http-vertx");
     
     @ArquillianResource
-    OpenShiftClient client;
+    private OpenShiftClient client;
     
     @ArquillianResource
     private Session session;
