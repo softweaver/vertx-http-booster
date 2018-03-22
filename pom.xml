@@ -81,8 +81,8 @@
 
     <dependency>
       <groupId>org.jboss.arquillian.junit</groupId>
-      <artifactId>arquillian-junit-container</artifactId>
-      <version>1.1.12.Final</version>
+      <artifactId>arquillian-junit-standalone</artifactId>
+      <version>1.4.0.Final</version>
       <scope>test</scope>
     </dependency>
 
@@ -101,7 +101,7 @@
     <dependency>
       <groupId>io.fabric8</groupId>
       <artifactId>openshift-client</artifactId>
-      <version>1.4.34</version>
+      <version>3.1.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
