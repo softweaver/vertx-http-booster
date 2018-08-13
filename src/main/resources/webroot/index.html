@@ -24,7 +24,7 @@
 <div class="sect2">
 <h3 id="_using_the_greeting_service">Using the greeting service</h3>
 
-</div>
+</div> 
 </div>
 </div>
         
@@ -49,7 +49,7 @@
 <script>
     $(document).ready(function() {
        $("#invoke").click(function(e) {
-          var n = $("#name").val() || "World";
+          var n = $("#name").val() || "Universe"; 
           $.getJSON("/api/greeting?name=" + n, function(res) {
               $("#greeting-result").text(JSON.stringify(res));
           });

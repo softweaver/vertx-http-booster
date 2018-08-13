@@ -19,6 +19,7 @@ public class HttpApplication extends AbstractVerticle {
     Router router = Router.router(vertx);
 
     router.get("/api/greeting").handler(this::greeting);
+    //router.get("/*").handler(this::greeting);
     router.get("/*").handler(StaticHandler.create());
 
     // Create the HTTP server and pass the "accept" method to the request handler.
@@ -29,7 +30,7 @@ public class HttpApplication extends AbstractVerticle {
             // Retrieve the port from the configuration, default to 8080.
             config().getInteger("http.port", 8080), ar -> {
               if (ar.succeeded()) {
-                System.out.println("Server started on port " + ar.result().actualPort());
+                System.out.println("Server HXP 20180812 started on port " + ar.result().actualPort());
               }
               future.handle(ar.mapEmpty());
             });
@@ -39,7 +40,7 @@ public class HttpApplication extends AbstractVerticle {
   private void greeting(RoutingContext rc) {
     String name = rc.request().getParam("name");
     if (name == null) {
-      name = "World";
+      name = "Worldsfair";
     }
 
     JsonObject response = new JsonObject()
